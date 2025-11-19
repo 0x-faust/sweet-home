@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Building2, Home, Briefcase, Hotel } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Projects = () => {
   const { t } = useLanguage();
@@ -78,64 +79,108 @@ const Projects = () => {
     : projects.filter((project) => project.category === activeFilter);
 
   return (
-    <div className="pt-20">
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+    <div className="pt-navbar-mobile md:pt-navbar-laptop">
+      {/* Hero Section */}
+      <section className="relative min-h-[80vh] md:min-h-[90vh] py-spacing-xl md:py-spacing-2xl bg-black overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1920')] bg-cover bg-center opacity-10"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-500/50 to-transparent"></div>
+        
+        <div className="relative z-10 max-w-container-mobile md:max-w-container-laptop xl:max-w-container-desktop mx-auto px-4 md:px-6 lg:px-8 text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-h1-mobile md:text-h1-laptop font-bold text-white mb-spacing-md md:mb-spacing-lg"
+          >
             {t('projects.title')}
-          </h1>
-          <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+          </motion.h1>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="w-16 md:w-24 h-px bg-gold-500 mx-auto mb-spacing-md md:mb-spacing-lg"
+          ></motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-body-mobile md:text-body-laptop text-white/70 max-w-3xl mx-auto leading-[1.55] px-4"
+          >
             {t('nav.home') === 'Accueil'
               ? 'Découvrez nos réalisations à travers le Maroc'
               : 'اكتشف مشاريعنا في جميع أنحاء المغرب'}
-          </p>
+          </motion.p>
         </div>
       </section>
 
-      <section className="py-12 bg-white sticky top-20 z-40 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Filters */}
+      <section className="py-spacing-sm md:py-spacing-md bg-black/80 backdrop-blur-md sticky top-navbar-mobile md:top-navbar-laptop z-40 border-b border-gold-500/20">
+        <div className="max-w-container-mobile md:max-w-container-laptop xl:max-w-container-desktop mx-auto px-4 md:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4">
             {filters.map((filter) => (
-              <button
+              <motion.button
                 key={filter.id}
                 onClick={() => setActiveFilter(filter.id)}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition-all ${
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`flex items-center space-x-2 px-6 py-3 text-sm font-semibold transition-all duration-300 ${
                   activeFilter === filter.id
-                    ? 'bg-amber-600 text-white shadow-lg scale-105'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-gold-500 text-black shadow-gold'
+                    : 'bg-dark-300/50 border border-gold-500/30 text-white hover:border-gold-500/60'
                 }`}
               >
                 {filter.icon && <filter.icon className="h-5 w-5" />}
                 <span>{filter.label}</span>
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
-              <div
-                key={project.id}
-                className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
-              >
-                <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60"></div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{project.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{project.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* Projects Grid */}
+      <section className="min-h-[500px] md:min-h-[700px] py-spacing-lg md:py-spacing-xl bg-gradient-to-br from-black via-dark-50 to-black">
+        <div className="max-w-container-mobile md:max-w-container-laptop xl:max-w-container-desktop mx-auto px-4 md:px-6 lg:px-8">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeFilter}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-spacing-md md:gap-spacing-lg"
+            >
+              {filteredProjects.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  whileHover={{ y: -5 }}
+                  className="group relative overflow-hidden border border-gold-500/20 hover:border-gold-500/50 transition-all duration-300"
+                >
+                  <div className="relative h-portfolio-mobile md:h-portfolio-laptop overflow-hidden">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
+                    
+                    {/* Overlay on hover */}
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                      <div className="w-full p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 className="text-2xl font-bold text-white mb-3">{project.title}</h3>
+                        <div className="w-16 h-px bg-gold-500 mb-3"></div>
+                        <p className="text-white/80 leading-relaxed">{project.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
     </div>

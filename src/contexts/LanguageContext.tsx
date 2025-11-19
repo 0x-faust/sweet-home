@@ -10,7 +10,14 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const translations = {
+// Define the structure of translations
+interface Translations {
+  [key: string]: {
+    [key: string]: string;
+  };
+}
+
+const translations: Translations = {
   fr: {
     // Navigation
     'nav.home': 'Accueil',
@@ -22,7 +29,7 @@ const translations = {
     'nav.faq': 'FAQ',
 
     // Home
-    'home.hero.title': 'Excellence en Décoration Intérieure',
+    'home.hero.title': 'Nous redéfinissons l\'élégance intérieure.',
     'home.hero.subtitle': 'Transformez vos espaces avec nos solutions de décoration haut de gamme',
     'home.hero.cta': 'Découvrir nos services',
     'home.specialties.title': 'Nos Spécialités',
@@ -313,7 +320,8 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   const t = (key: string): string => {
-    return translations[language][key] || key;
+    const languageTranslations = translations[language];
+    return languageTranslations[key] || key;
   };
 
   return (

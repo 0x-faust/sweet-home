@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Mail, MapPin, Phone, Clock, Send } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { motion } from 'framer-motion';
 
 const Contact = () => {
   const { t } = useLanguage();
@@ -24,119 +25,165 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus('idle');
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    setIsSubmitting(false);
-    setSubmitStatus('success');
+      setIsSubmitting(false);
+      setSubmitStatus('success');
 
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      service: '',
-      message: '',
-    });
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        service: '',
+        message: '',
+      });
 
-    setTimeout(() => {
-      setSubmitStatus('idle');
-    }, 3000);
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 3000);
+    } catch (error) {
+      setIsSubmitting(false);
+      setSubmitStatus('error');
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 3000);
+    }
   };
 
   return (
-    <div className="pt-20">
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+    <div className="pt-navbar-mobile md:pt-navbar-laptop">
+      {/* Hero Section */}
+      <section className="relative min-h-[80vh] md:min-h-[90vh] py-spacing-xl md:py-spacing-2xl bg-black overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1920')] bg-cover bg-center opacity-10"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-500/50 to-transparent"></div>
+        
+        <div className="relative z-10 max-w-container-mobile md:max-w-container-laptop xl:max-w-container-desktop mx-auto px-4 md:px-6 lg:px-8 text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-h1-mobile md:text-h1-laptop font-bold text-white mb-spacing-md md:mb-spacing-lg"
+          >
             {t('contact.title')}
-          </h1>
-          <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+          </motion.h1>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="w-16 md:w-24 h-px bg-gold-500 mx-auto mb-spacing-md md:mb-spacing-lg"
+          ></motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-body-mobile md:text-body-laptop text-white/70 max-w-3xl mx-auto leading-[1.55] px-4"
+          >
             {t('contact.subtitle')}
-          </p>
+          </motion.p>
         </div>
       </section>
 
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">
+      {/* Contact Section */}
+      <section className="min-h-[500px] md:min-h-[700px] py-spacing-lg md:py-spacing-xl bg-gradient-to-br from-black via-dark-50 to-black relative">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent"></div>
+        
+        <div className="max-w-container-mobile md:max-w-container-laptop xl:max-w-container-desktop mx-auto px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-spacing-lg md:gap-spacing-xl">
+            {/* Contact Info */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <h2 className="text-h2-mobile md:text-h2-laptop font-bold text-white mb-spacing-lg md:mb-spacing-xl">
                 {t('contact.info.title')}
               </h2>
-              <div className="space-y-6">
+              <div className="space-y-6 md:space-y-8 mb-8 md:mb-12">
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MapPin className="h-6 w-6 text-amber-600" />
+                  <div className="w-12 h-12 bg-gold-500/10 border border-gold-500/30 flex items-center justify-center flex-shrink-0">
+                    <MapPin className="h-6 w-6 text-gold-500" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                    <h3 className="text-lg font-semibold text-white mb-2">
                       {t('contact.info.address')}
                     </h3>
-                    <p className="text-gray-600">
-                      Quartier des Affaires, Casablanca, Maroc
+                    <p className="text-white/60">
+                      Casablanca, Maroc
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone className="h-6 w-6 text-amber-600" />
+                  <div className="w-12 h-12 bg-gold-500/10 border border-gold-500/30 flex items-center justify-center flex-shrink-0">
+                    <Phone className="h-6 w-6 text-gold-500" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                    <h3 className="text-lg font-semibold text-white mb-2">
                       {t('contact.info.phone')}
                     </h3>
-                    <p className="text-gray-600">+212 6XX-XXXXXX</p>
-                    <p className="text-gray-600">+212 5XX-XXXXXX</p>
+                    <p className="text-white/60">+212 6XX-XXXXXX</p>
+                    <p className="text-white/60">+212 5XX-XXXXXX</p>
                   </div>
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail className="h-6 w-6 text-amber-600" />
+                  <div className="w-12 h-12 bg-gold-500/10 border border-gold-500/30 flex items-center justify-center flex-shrink-0">
+                    <Mail className="h-6 w-6 text-gold-500" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                    <h3 className="text-lg font-semibold text-white mb-2">
                       {t('contact.info.email')}
                     </h3>
-                    <p className="text-gray-600">contact@shg-deco.ma</p>
-                    <p className="text-gray-600">info@shg-deco.ma</p>
+                    <p className="text-white/60">contact@darkyn.ma</p>
+                    <p className="text-white/60">info@darkyn.ma</p>
                   </div>
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Clock className="h-6 w-6 text-amber-600" />
+                  <div className="w-12 h-12 bg-gold-500/10 border border-gold-500/30 flex items-center justify-center flex-shrink-0">
+                    <Clock className="h-6 w-6 text-gold-500" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                    <h3 className="text-lg font-semibold text-white mb-2">
                       {t('contact.info.hours')}
                     </h3>
-                    <p className="text-gray-600">{t('contact.info.hours.value')}</p>
+                    <p className="text-white/60">{t('contact.info.hours.value')}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-12 rounded-2xl overflow-hidden shadow-lg h-80">
+              <div className="border border-gold-500/20 overflow-hidden h-64 md:h-80">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d106449.45712267564!2d-7.680149695935566!3d33.57346486784647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7cd4778aa113b%3A0xb06c1d84f310fd3!2sCasablanca%2C%20Morocco!5e0!3m2!1sen!2s!4v1647890123456!5m2!1sen!2s"
                   width="100%"
                   height="100%"
-                  style={{ border: 0 }}
+                  style={{ border: 0, filter: 'grayscale(100%) invert(1) brightness(0.3)' }}
                   allowFullScreen
                   loading="lazy"
                   title="Map"
                 ></iframe>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="bg-gray-50 rounded-2xl p-8 shadow-lg">
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">
+            {/* Contact Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="bg-dark-300/50 border border-gold-500/20 p-6 md:p-8"
+            >
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 md:mb-8">
                 {t('contact.subtitle')}
               </h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor="name" className="block text-sm font-semibold text-white mb-2">
                     {t('contact.form.name')}
                   </label>
                   <input
@@ -146,12 +193,15 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                    aria-required="true"
+                    aria-label={t('contact.form.name')}
+                    className="w-full px-4 py-3 bg-black/50 border border-gold-500/30 text-white placeholder-white/40 focus:border-gold-500 focus:outline-none focus:ring-1 focus:ring-gold-500 transition-all"
+                    placeholder={t('contact.form.name')}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor="email" className="block text-sm font-semibold text-white mb-2">
                     {t('contact.form.email')}
                   </label>
                   <input
@@ -161,12 +211,15 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                    aria-required="true"
+                    aria-label={t('contact.form.email')}
+                    className="w-full px-4 py-3 bg-black/50 border border-gold-500/30 text-white placeholder-white/40 focus:border-gold-500 focus:outline-none focus:ring-1 focus:ring-gold-500 transition-all"
+                    placeholder={t('contact.form.email')}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor="phone" className="block text-sm font-semibold text-white mb-2">
                     {t('contact.form.phone')}
                   </label>
                   <input
@@ -176,12 +229,15 @@ const Contact = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                    aria-required="true"
+                    aria-label={t('contact.form.phone')}
+                    className="w-full px-4 py-3 bg-black/50 border border-gold-500/30 text-white placeholder-white/40 focus:border-gold-500 focus:outline-none focus:ring-1 focus:ring-gold-500 transition-all"
+                    placeholder={t('contact.form.phone')}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="service" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor="service" className="block text-sm font-semibold text-white mb-2">
                     {t('contact.form.service')}
                   </label>
                   <select
@@ -190,7 +246,9 @@ const Contact = () => {
                     value={formData.service}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                    aria-required="true"
+                    aria-label={t('contact.form.service')}
+                    className="w-full px-4 py-3 bg-black/50 border border-gold-500/30 text-white focus:border-gold-500 focus:outline-none focus:ring-1 focus:ring-gold-500 transition-all"
                   >
                     <option value="">{t('contact.form.service.select')}</option>
                     <option value="moulures">{t('contact.form.service.moulures')}</option>
@@ -202,7 +260,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor="message" className="block text-sm font-semibold text-white mb-2">
                     {t('contact.form.message')}
                   </label>
                   <textarea
@@ -212,15 +270,18 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     rows={4}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all resize-none"
+                    aria-required="true"
+                    aria-label={t('contact.form.message')}
+                    className="w-full px-4 py-3 bg-black/50 border border-gold-500/30 text-white placeholder-white/40 focus:border-gold-500 focus:outline-none focus:ring-1 focus:ring-gold-500 transition-all resize-none"
+                    placeholder={t('contact.form.message')}
                   ></textarea>
                 </div>
 
                 <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full flex items-center justify-center space-x-2 bg-amber-600 hover:bg-amber-700 text-white px-6 py-4 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                >
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full flex items-center justify-center space-x-2 bg-gold-500 hover:bg-gold-600 text-black min-w-[140px] px-5 md:px-6 h-[50px] rounded-lg text-body-mobile md:text-body-laptop font-semibold transition-all duration-300 shadow-gold hover:shadow-gold-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
                   {isSubmitting ? (
                     <span>{t('nav.home') === 'Accueil' ? 'Envoi en cours...' : 'جاري الإرسال...'}</span>
                   ) : (
@@ -232,14 +293,33 @@ const Contact = () => {
                 </button>
 
                 {submitStatus === 'success' && (
-                  <div className="p-4 bg-green-100 text-green-800 rounded-lg text-center font-semibold">
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-4 bg-gold-500/20 border border-gold-500/50 text-gold-500 rounded-sm text-center font-semibold"
+                    role="alert"
+                    aria-live="polite"
+                  >
                     {t('nav.home') === 'Accueil'
                       ? 'Message envoyé avec succès !'
                       : 'تم إرسال الرسالة بنجاح!'}
-                  </div>
+                  </motion.div>
+                )}
+                {submitStatus === 'error' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-4 bg-red-500/20 border border-red-500/50 text-red-400 rounded-sm text-center font-semibold"
+                    role="alert"
+                    aria-live="polite"
+                  >
+                    {t('nav.home') === 'Accueil'
+                      ? 'Une erreur est survenue. Veuillez réessayer.'
+                      : 'حدث خطأ. يرجى المحاولة مرة أخرى.'}
+                  </motion.div>
                 )}
               </form>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>

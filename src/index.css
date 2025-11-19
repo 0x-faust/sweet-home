@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap');
 
 @tailwind base;
@@ -6,8 +6,14 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    @apply border-dark-400;
+  }
+
   body {
-    @apply antialiased;
+    @apply antialiased bg-black text-white;
+    background: linear-gradient(135deg, #000000 0%, #0d0d0d 50%, #1a1a1a 100%);
+    min-height: 100vh;
   }
 
   .font-latin {
@@ -22,6 +28,24 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .gold-gradient {
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  }
+
+  .gold-text {
+    color: #d4af37;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  }
+
+  .gold-border {
+    border-color: #d4af37;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+  }
+
+  .metallic-bg {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
   }
 }
 

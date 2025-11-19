@@ -11,7 +11,7 @@ const SEO: React.FC<SEOProps> = ({ title, description, keywords }) => {
   const location = useLocation();
 
   useEffect(() => {
-    document.title = `${title} | SHG Décoration`;
+    document.title = `${title} | DARKYN`;
 
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
@@ -37,11 +37,11 @@ const SEO: React.FC<SEOProps> = ({ title, description, keywords }) => {
 
     const metaOgTitle = document.querySelector('meta[property="og:title"]');
     if (metaOgTitle) {
-      metaOgTitle.setAttribute('content', `${title} | SHG Décoration`);
+      metaOgTitle.setAttribute('content', `${title} | DARKYN`);
     } else {
       const meta = document.createElement('meta');
       meta.setAttribute('property', 'og:title');
-      meta.content = `${title} | SHG Décoration`;
+      meta.content = `${title} | DARKYN`;
       document.head.appendChild(meta);
     }
 
@@ -57,11 +57,11 @@ const SEO: React.FC<SEOProps> = ({ title, description, keywords }) => {
 
     const metaOgUrl = document.querySelector('meta[property="og:url"]');
     if (metaOgUrl) {
-      metaOgUrl.setAttribute('content', `https://shg-deco.ma${location.pathname}`);
+      metaOgUrl.setAttribute('content', `https://darkyn.ma${location.pathname}`);
     } else {
       const meta = document.createElement('meta');
       meta.setAttribute('property', 'og:url');
-      meta.content = `https://shg-deco.ma${location.pathname}`;
+      meta.content = `https://darkyn.ma${location.pathname}`;
       document.head.appendChild(meta);
     }
   }, [title, description, keywords, location]);
